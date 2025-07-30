@@ -1,4 +1,5 @@
 const mongoose =require("mongoose"); 
+const {Schema} = mongoose;
 
 const studentSchema = new mongoose.Schema({
   aadhaarNumber: {
@@ -82,6 +83,10 @@ const studentSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please provide a password.'],
     minlength: [6, 'Password must be at least 6 characters long.'], 
+  },
+  permanentscibe : {
+    type: Schema.Types.ObjectId,
+    ref: 'Scribe' 
   }
 }, { timestamps: true });
 

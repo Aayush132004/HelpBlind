@@ -4,6 +4,7 @@ const cloudinary = require('cloudinary').v2;
 const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcrypt'); // Don't forget to install: npm install bcrypt
 const jwt = require('jsonwebtoken'); // Don't forget to install: npm install jsonwebtoken
+const { use } = require("react");
 
 // Cloudinary configuration
 cloudinary.config({
@@ -11,6 +12,7 @@ cloudinary.config({
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
+
 
 // --- Controller 1: Generate Upload Signature ---
 const uploadSignature = async (req, res) => {
@@ -536,4 +538,103 @@ const logout = async (req, res) => {
     }
 };
 
-module.exports = { registerScribe, uploadSignature, login, logout,registerStudent };
+const stdreq = async (req, res) => {
+    try {
+        console.log("hi");
+        const {examDate,examTime , city , examLanguage } = req.body;
+
+        avlscb = await Scribe.find({ city: city });
+        console.log(avlscb);
+        res.status(200).send( {data : avlscb});
+     
+    } catch (err) {
+        console.error('Error generating upload signature:', err);
+        res.status(500).json({ error: 'Failed to generate upload credential' });
+    }
+};
+
+const seltscb = async (req, res) => {
+    try {
+        
+        const { scb , user , date} = req.body;
+        if (!scb || ! user) {
+      return res.status(400).json({ error: 'scribeId and studentId are required' });
+    }
+    // const updatedScribe = await Scribe.findByIdAndUpdate(
+    //   scb._id,
+    //   { $addToSet: { tempstudent: user._id } }, // use $push if you want duplicates allowed
+    //   { new: true } // return the updated document
+    // ).populate('tempstudent'); // optional: populate student info
+
+    const updatedScribe = await Scribe.findByIdAndUpdate(
+      scb._id,
+      {
+        $push: {
+          tempstudent: {
+            student: user._id,
+            date: new Date(date)
+          }
+        }
+      },
+      { new: true }
+    ).populate('tempstudent.student'); // populate inner student
+
+
+    if (!updatedScribe) {
+      return res.status(404).json({ error: 'Scribe not found' });
+    }
+
+    res.status(200).json({ data: updatedScribe });
+     
+    } catch (err) {
+        console.error('Error generating upload signature:', err);
+        res.status(500).json({ error: 'Failed to generate upload credential' });
+    }
+};
+
+const getstudents = async(req , res)=>{
+    try {
+
+        const {user } = req.body;
+        console.log(user , "ussr")
+        console.log( user._id ,"scribe details")
+
+
+        const scb = await Scribe.findById(user._id);
+        console.log(scb.tempstudent)
+        // console.log(scb , "fing id");
+        res.status(200).json({data : scb.tempstudent});
+        
+    } catch (error) {
+       res.status(500).json({ error: 'Failed to generate upload credential' });
+    }
+}
+const accept = async(req , res) =>{
+   
+    try {
+
+        const {user , std} = req.body;
+
+        const  updatedstudent= await Student.findByIdAndUpdate(
+            std.student,
+            {$set : { permanentscibe : user._id}}
+        );
+        const updatedscribe = await Scribe.findByIdAndUpdate(
+            user._id,
+            {$push : { permanentstudent : std._id } , $push : { bookedDates : std.date}}
+        );
+
+        console.log(user , "jj");
+        console.log(std , "kk");
+
+        res.status(200).json({data : " hi"});
+         
+
+
+        
+    } catch (error) {
+       res.status(500).json({ error: 'Failed to generate upload credential' });
+    }
+
+}
+module.exports = { registerScribe, uploadSignature, login, logout,registerStudent  , stdreq , seltscb , getstudents , accept};

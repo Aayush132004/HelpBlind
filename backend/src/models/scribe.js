@@ -1,4 +1,5 @@
 const mongoose =require("mongoose"); 
+const { Schema } = mongoose; 
 
 const scribeSchema = new mongoose.Schema({
   aadhaarNumber: {
@@ -78,7 +79,20 @@ const scribeSchema = new mongoose.Schema({
 role:{
   type:String,
   default:"scribe"
-}
+} , 
+ tempstudent: [
+  {
+    student: { type: mongoose.Schema.Types.ObjectId, ref: 'Student' },
+    date: { type: Date }
+  }
+],
+ permanentstudent : [{
+
+  type: Schema.Types.ObjectId,
+  ref: 'Student' 
+      
+ }],
+ bookedDates: [{ type: Date }]
 }, { timestamps: true });
 
 const Scribe = mongoose.model('Scribe', scribeSchema);

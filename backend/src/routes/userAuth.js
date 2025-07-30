@@ -2,7 +2,7 @@ const express=require("express");
 const authRouter=express.Router();
 const userMiddleware=require("../middleware/userMiddleware")
 // const userMiddleware=require("../middleware/userMiddleware")
-const {uploadSignature,registerScribe,registerStudent,login,logout}=require("../../controller/authScribe");
+const {uploadSignature,registerScribe,registerStudent,login,logout , stdreq , seltscb , getstudents , accept}=require("../../controller/authScribe");
 
 //register and doc uploading
 authRouter.post("/registerScribe",registerScribe);
@@ -11,6 +11,11 @@ authRouter.post("/registerStudent",registerStudent);
 //login and logout
 authRouter.post("/login",login);
 authRouter.post("/logout",logout);
+authRouter.post("/stdreq" ,stdreq);
+authRouter.post("/seltscb" ,seltscb);
+
+authRouter.post("/getstudents" ,getstudents);
+authRouter.post("/accept" , accept);
 
 
 authRouter.get("/check",userMiddleware,async(req,res)=>{
