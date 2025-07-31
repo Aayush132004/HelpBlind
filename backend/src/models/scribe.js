@@ -90,7 +90,6 @@ role:{
 
   type: Schema.Types.ObjectId,
   ref: 'Student' 
-      
  }],
  bookedDates: [{ type: Date }]
 }, { timestamps: true });

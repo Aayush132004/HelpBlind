@@ -20,6 +20,7 @@ const ScribeHome = () => {
 
        console.log(res.data.data);
        settempstudent(res.data.data);
+       
       
     } catch (error) {
 
@@ -30,7 +31,7 @@ const ScribeHome = () => {
 
    const Accept = async (std)=>{
 
-    alert(std.fullName)
+    // alert(std.student);
 
     try {
       const res = await axiosClient.post("/auth/accept" , {user , std})
