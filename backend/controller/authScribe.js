@@ -679,6 +679,8 @@ const accept = async(req , res) =>{
     try {
 
         const {user , std} = req.body;
+        console.log(std);
+        console.log(user);
 
         const  updatedstudent= await Student.findByIdAndUpdate(
             std.student,
@@ -693,11 +695,13 @@ const accept = async(req , res) =>{
         const updatedscribe = await Scribe.findByIdAndUpdate(
             user._id,
             {$addToSet : { permanentstudent : std.student } , $push : { bookedDates : std.date}}
+            {$addToSet : { permanentstudent : std.student } , $push : { bookedDates : std.date}}
         );
 
 
-        console.log(user , "jj");
-        console.log(std , "kk");
+
+        // console.log(user , "jj");
+        // console.log(std , "kk");
 
         res.status(200).json({data : " hi"});
         
