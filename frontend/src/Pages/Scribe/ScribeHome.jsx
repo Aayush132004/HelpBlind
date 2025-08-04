@@ -10,7 +10,7 @@ const ScribeHome = () => {
    const {highContrast, setHighContrast} = useGlobal();
 
    const [ tempstudent , settempstudent] = useState();
-   console.log(user)
+   console.log(user,1)
 
    const getallstudents = async ()=>{
 

@@ -9,6 +9,10 @@ import StudentHome from './Pages/Student/StudentHome';
 import useGlobal from './utils/GlobalContext';
 import axiosClient from './utils/axiosClient';
 import { useEffect } from 'react';
+import Bookings from './Pages/Scribe/Bookings.jsx';
+import BookingStudent from './Pages/Student/BookingStudent.jsx';
+import ChatPage from './Pages/ChatPage.jsx';
+import CallPage from './Pages/CallPage.jsx';
 
 const App = () => {
   const {isAuthenticated,setIsAuthenticated}=useGlobal();
@@ -40,10 +44,7 @@ const App = () => {
   return (
    <>
    <Routes>
-   <Route
-  path="/"
-  element={
-    isAuthenticated ? (
+   <Route path="/" element={ isAuthenticated ? (
       user.role === "scribe" ? (
         <Navigate to="/scribeHome" />
       ) : user.role === "student" ? (
@@ -61,7 +62,11 @@ const App = () => {
     <Route path='/studentRegister' element={<StudentRegister/>}></Route>
     <Route path='/scribeHome' element={isAuthenticated&&user.role==="scribe"?<ScribeHome/>:<Navigate to="/"></Navigate>}></Route>
     <Route path='/studentHome' element={isAuthenticated&&user.role==="student"?<StudentHome/>:<Navigate to="/"></Navigate>}></Route>
-
+    {/* <Route path='/bookings' element={isAuthenticated && user.role==="scribe"?<Bookings/>:<Navigate to="/"></Navigate>}></Route> */}
+    <Route path='/bookings'element={isAuthenticated&& user.role === "scribe"? <Bookings/> : <BookingStudent/>} > </Route>
+        <Route path="/chat/:id" element={<ChatPage/>}></Route>
+        <Route path="/call/:id" element={<CallPage/>}></Route>
+   
    </Routes>
    </>
   )

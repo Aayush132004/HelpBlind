@@ -3,6 +3,7 @@ import { ChevronDown, Users, BookOpen, Eye, Contrast, Volume2, Globe } from 'luc
 import { useNavigate } from 'react-router';
 import useGlobal from '../utils/GlobalContext';
 
+
 const Homepage = () => {
   const {language, setLanguage}= useGlobal();
   const {isAuthenticated,setIsAuthenticated}=useGlobal();
@@ -65,6 +66,7 @@ const Homepage = () => {
       registerPrompt: "अभी तक खाता नहीं है?"
     }
   };
+
 
   const t = translations[language];
 
