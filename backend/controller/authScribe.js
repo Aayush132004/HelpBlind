@@ -4,7 +4,8 @@ const cloudinary = require('cloudinary').v2;
 const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcrypt'); // Don't forget to install: npm install bcrypt
 const jwt = require('jsonwebtoken'); // Don't forget to install: npm install jsonwebtoken
-const { use } = require("react");
+const { upsertStreamUser } = require("../src/config/stream");
+
 
 // Cloudinary configuration
 cloudinary.config({
@@ -161,6 +162,19 @@ const registerScribe = async (req, res) => {
         });
 
         const actualUserId = newScribe._id.toString(); // Get the new user's actual ID
+
+        try{
+            await upsertStreamUser({
+                //these are the fields that stream needs to create a user
+                id: newScribe._id.toString(),
+                name: newScribe.fullName,
+                image: newScribe.profile?.url || '',
+            })
+            console.log('Stream user created successfully for:', newScribe._id);
+        }
+        catch(err){
+            console.error('Error creating Stream user:', err);
+        }
 
         // --- Cloudinary Asset Renaming ---
         // This function renames the temporary asset to its permanent user-specific location
@@ -347,6 +361,19 @@ const registerStudent = async (req, res) => {
         });
 
         const actualUserId = newStudent._id.toString(); // Get the new user's actual ID
+
+        try{
+            await upsertStreamUser({
+                //these are the fields that stream needs to create a user
+                id: newStudent._id.toString(),
+                name: newStudent.fullName,
+                image: newStudent.profile?.url || '',
+            })
+            console.log('Stream user created successfully for:', newStudent._id);
+        }
+        catch(err){
+            console.error('Error creating Stream user:', err);
+        }
 
         // --- Cloudinary Asset Renaming ---
         // This function renames the temporary asset to its permanent user-specific location
@@ -609,6 +636,44 @@ const getstudents = async(req , res)=>{
        res.status(500).json({ error: 'Failed to generate upload credential' });
     }
 }
+
+const getPermanentStudents = async(req , res)=>{
+    try {
+        console.log(req.body)
+
+        const {user } = req.body;
+        console.log(user , "ussr")
+        console.log( user._id ,"scribe details")
+
+        
+        const permanentStudent = await Scribe.findById(user._id).select("permanentstudent").populate("permanentstudent", "fullName city mobileNumber email");
+        res.status(200).json(permanentStudent);
+       
+        
+    } catch (error) {
+       res.status(500).json({ error: 'Failed to generate upload credential jnkjn',error });
+    }
+}
+
+const getPermanentScribe = async(req , res)=>{
+    try {
+        console.log(req.body)
+
+        const {user } = req.body;
+        console.log(user , "ussr")
+        console.log( user._id ,"student details")
+
+        
+        const permanentScribe = await Student.findById(user._id).select("permanentscibe").populate("permanentscibe", "fullName city mobileNumber email");
+        res.status(200).json(permanentScribe);
+       
+        
+    } catch (error) {
+       res.status(500).json({ error: 'Failed to generate upload credential jnkjn',error });
+    }
+}
+
+
 const accept = async(req , res) =>{
    
     try {
@@ -619,22 +684,27 @@ const accept = async(req , res) =>{
             std.student,
             {$set : { permanentscibe : user._id}}
         );
+
+        // const updatedscribe = await Scribe.findByIdAndUpdate(
+        //     user._id,
+        //     {$add : { permanentstudent : std.student._id
+        //   } } , $push : { bookedDates : std.date}}
+        // );
         const updatedscribe = await Scribe.findByIdAndUpdate(
             user._id,
-            {$push : { permanentstudent : std._id } , $push : { bookedDates : std.date}}
+            {$addToSet : { permanentstudent : std.student } , $push : { bookedDates : std.date}}
         );
+
 
         console.log(user , "jj");
         console.log(std , "kk");
 
         res.status(200).json({data : " hi"});
-         
-
-
+        
         
     } catch (error) {
        res.status(500).json({ error: 'Failed to generate upload credential' });
     }
 
 }
-module.exports = { registerScribe, uploadSignature, login, logout,registerStudent  , stdreq , seltscb , getstudents , accept};
+module.exports = { registerScribe, uploadSignature, login, logout,registerStudent,getPermanentScribe  , stdreq , seltscb , getstudents , accept, getPermanentStudents};

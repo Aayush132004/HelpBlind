@@ -55,7 +55,7 @@ const scribeSchema = new mongoose.Schema({
 
    cloudinaryPublicId:{
             type:String,
-        }
+    }
   },
   profile: {
     url:{
@@ -90,7 +90,6 @@ role:{
 
   type: Schema.Types.ObjectId,
   ref: 'Student' 
-      
  }],
  bookedDates: [{ type: Date }]
 }, { timestamps: true });
