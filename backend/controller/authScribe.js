@@ -695,7 +695,7 @@ const accept = async(req , res) =>{
         const updatedscribe = await Scribe.findByIdAndUpdate(
             user._id,
             {$addToSet : { permanentstudent : std.student } , $push : { bookedDates : std.date}}
-            {$addToSet : { permanentstudent : std.student } , $push : { bookedDates : std.date}}
+            
         );
 
 
