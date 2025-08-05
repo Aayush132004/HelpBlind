@@ -783,9 +783,11 @@ const rejectrequest = async(req , res) =>{
             { isAccepted: "rejected", description: rejectionReason },
             { new: true }
         );
-        // console.log(user);  
+        console.log(updatedRequest , "updated request");
+        
+        // console.log(currentRejectRequest , "current reject request");
 
-        res.status(200).json({data : "hi"});
+        res.json({data : "hi"});
         
     } catch (error) {
         res.status(500).json({ error: 'Failed to generate upload credential' });

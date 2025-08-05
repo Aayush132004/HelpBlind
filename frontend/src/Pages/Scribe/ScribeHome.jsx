@@ -680,9 +680,10 @@ const ScribeHome = () => {
     }
 
     setRejectingId(currentRejectRequest._id);
+    console.log("Rejecting request:", currentRejectRequest._id, "Reason:", rejdec);
     try {
       const res = await axiosClient.post("/auth/rejectrequest", {
-        ...currentRejectRequest,
+         currentRejectRequest,
         status: 'rejected',
         rejectionReason: rejdec
       })
