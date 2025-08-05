@@ -1,10 +1,13 @@
 const Scribe = require("../src/models/scribe"); // Adjust path if needed
-const Student=require("../src/models/student")
+const Student=require("../src/models/student");
+const Request = require("../src/models/request"); // Adjust path if needed
+
 const cloudinary = require('cloudinary').v2;
 const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcrypt'); // Don't forget to install: npm install bcrypt
 const jwt = require('jsonwebtoken'); // Don't forget to install: npm install jsonwebtoken
 const { upsertStreamUser } = require("../src/config/stream");
+const { trace } = require("../src/routes/userAuth");
 
 
 // Cloudinary configuration
@@ -568,7 +571,7 @@ const logout = async (req, res) => {
 const stdreq = async (req, res) => {
     try {
         console.log("hi");
-        const {examDate,examTime , city , examLanguage } = req.body;
+        const {examDate,examTime , city , examLanguage  } = req.body;
 
         avlscb = await Scribe.find({ city: city });
         console.log(avlscb);
@@ -583,15 +586,34 @@ const stdreq = async (req, res) => {
 const seltscb = async (req, res) => {
     try {
         
-        const { scb , user , date} = req.body;
+        const { scb , user , date , scribeRequest} = req.body;
+        console.log(scribeRequest , "scb details");
         if (!scb || ! user) {
       return res.status(400).json({ error: 'scribeId and studentId are required' });
     }
-    // const updatedScribe = await Scribe.findByIdAndUpdate(
-    //   scb._id,
-    //   { $addToSet: { tempstudent: user._id } }, // use $push if you want duplicates allowed
-    //   { new: true } // return the updated document
-    // ).populate('tempstudent'); // optional: populate student info
+     const existingRequest = await Request.findOne({
+      studentId: user._id,
+      scribeId: scb._id,
+      date: date
+    });
+
+    if(existingRequest == null){
+        const newRequest = new Request({
+            studentId: user._id,
+            scribeId: scb._id,
+            city: scribeRequest.city,
+            date: date, 
+            language: scribeRequest.examLanguage,
+    }
+    );
+    await newRequest.save();
+    console.log("new request created");
+    // }else{
+    //     res.status(400).json({ error: 'Request already exists for this student and scribe on this date' });
+    // }
+}
+
+  console.log(existingRequest , "existing request");
 
     const updatedScribe = await Scribe.findByIdAndUpdate(
       scb._id,
@@ -622,15 +644,16 @@ const seltscb = async (req, res) => {
 const getstudents = async(req , res)=>{
     try {
 
-        const {user } = req.body;
-        console.log(user , "ussr")
+        const {user} = req.body;
+        // console.log(user , "ussr")
         console.log( user._id ,"scribe details")
 
 
         const scb = await Scribe.findById(user._id);
-        console.log(scb.tempstudent)
+        const reqest = await Request.find({scribeId: user._id})
+        console.log(reqest , "request details");
         // console.log(scb , "fing id");
-        res.status(200).json({data : scb.tempstudent});
+        res.status(200).json({data : scb.tempstudent  , data2 : reqest});
         
     } catch (error) {
        res.status(500).json({ error: 'Failed to generate upload credential' });
@@ -711,4 +734,76 @@ const accept = async(req , res) =>{
     }
 
 }
-module.exports = { registerScribe, uploadSignature, login, logout,registerStudent,getPermanentScribe  , stdreq , seltscb , getstudents , accept, getPermanentStudents};
+
+const acceptrequest = async(req , res) =>{
+
+    try {
+
+        const {request} = req.body;
+        console.log(request._id , "request id");
+        // console.log(user);
+        const updatedRequest = await Request.findByIdAndUpdate(
+            request._id,
+            { isAccepted: "accepted" },
+            { new: true }
+        );
+
+        const updatedscribe = await Scribe.findByIdAndUpdate(
+            request.scribeId,
+            {$addToSet : { permanentstudent : request.studentId } , $push : { bookedDates : request.date}}
+            
+        );
+
+        const  updatedstudent= await Student.findByIdAndUpdate(
+            request.studentId,
+            {$set : { permanentscibe : request.scribeId} }
+        );
+        // const updatedScribe = await Scribe.findByIdAndUpdate(
+        //     request.scribeId,
+        //     { bookedDates: request.date },
+        //     { new: true }
+        // );
+       
+
+      res.json({data : "hi"});
+        
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to generate upload credential' });
+    }
+
+}
+
+const rejectrequest = async(req , res) =>{
+    try {
+
+        const {currentRejectRequest , status ,rejectionReason } = req.body;
+        console.log(rejectionReason , "rejjj");
+        const updatedRequest = await Request.findByIdAndUpdate(
+            currentRejectRequest._id,
+            { isAccepted: "rejected", description: rejectionReason },
+            { new: true }
+        );
+        // console.log(user);  
+
+        res.status(200).json({data : "hi"});
+        
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to generate upload credential' });
+    }
+}
+
+const getRejectedRequests = async(req , res) =>{
+    try {
+        const {user} = req.body;
+        console.log(user , "user details");
+        const rejectedRequests = await Request.find({ studentId: user._id, isAccepted: "rejected" })
+        console.log(rejectedRequests , "rejected requests");
+
+        res.status(200).json(rejectedRequests);
+    }   
+    catch (error) {
+        console.error('Error fetching rejected requests:', error);
+        res.status(500).json({ error: 'Failed to fetch rejected requests' });
+    }
+}; 
+module.exports = { registerScribe, uploadSignature, login, logout,registerStudent,getPermanentScribe  , stdreq , seltscb , getstudents , accept, getPermanentStudents , acceptrequest , rejectrequest , getRejectedRequests };

@@ -771,7 +771,7 @@ const StudentHome = () => {
   const select = async(scb) => {
     setSelectingScribe(scb.fullName);
     try {
-      const response = await axiosClient.post('/auth/seltscb', {scb, user, date: scribeRequest.examDate});
+      const response = await axiosClient.post('/auth/seltscb', {scb, user, date: scribeRequest.examDate , scribeRequest});
       console.log('Scribe selected successfully');
       alert(` Request to Scribe ${scb.fullName} has been sent for your exam!`);
       // You might want to update the UI or redirect here

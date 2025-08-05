@@ -2,7 +2,7 @@ const express=require("express");
 const authRouter=express.Router();
 const userMiddleware=require("../middleware/userMiddleware")
 // const userMiddleware=require("../middleware/userMiddleware")
-const {uploadSignature,registerScribe,registerStudent,login,logout , stdreq , seltscb , getstudents , accept, getPermanentStudents, getPermanentScribe}=require("../../controller/authScribe");
+const {uploadSignature,registerScribe,registerStudent,login,logout , stdreq , seltscb , getstudents , accept, getPermanentStudents, getPermanentScribe , rejectrequest , acceptrequest , getRejectedRequests}=require("../../controller/authScribe");
 const { getStreamToken } = require("../../controller/chat.controller");
 
 //register and doc uploading
@@ -20,6 +20,13 @@ authRouter.post("/accept" , accept);
 authRouter.post("/getPermanentStudents" , getPermanentStudents);
 authRouter.post("/getPermanentScribe" , getPermanentScribe);
 authRouter.post("/token",getStreamToken);
+authRouter.post("/acceptrequest",acceptrequest);
+authRouter.post("/rejectrequest",rejectrequest);
+
+authRouter.post("/getRejectedRequests",getRejectedRequests);
+
+// acceptrequest
+// rejectrequest
 
 
 authRouter.get("/check",userMiddleware,async(req,res)=>{

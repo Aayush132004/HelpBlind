@@ -13,6 +13,8 @@ import Bookings from './Pages/Scribe/Bookings.jsx';
 import BookingStudent from './Pages/Student/BookingStudent.jsx';
 import ChatPage from './Pages/ChatPage.jsx';
 import CallPage from './Pages/CallPage.jsx';
+import RejectedRequest from './Pages/Student/RejectedRequest.jsx';
+
 
 const App = () => {
   const {isAuthenticated,setIsAuthenticated}=useGlobal();
@@ -62,6 +64,7 @@ const App = () => {
     <Route path='/studentRegister' element={<StudentRegister/>}></Route>
     <Route path='/scribeHome' element={isAuthenticated&&user.role==="scribe"?<ScribeHome/>:<Navigate to="/"></Navigate>}></Route>
     <Route path='/studentHome' element={isAuthenticated&&user.role==="student"?<StudentHome/>:<Navigate to="/"></Navigate>}></Route>
+    {/* <Route path='/rejectedrequest' element={isAuthenticated&&user.role==="student"?<RejectedRequest/>:<Navigate to="/"></Navigate>}></Route> */}
     {/* <Route path='/bookings' element={isAuthenticated && user.role==="scribe"?<Bookings/>:<Navigate to="/"></Navigate>}></Route> */}
     <Route path='/bookings'element={isAuthenticated&& user.role === "scribe"? <Bookings/> : <BookingStudent/>} > </Route>
         <Route path="/chat/:id" element={<ChatPage/>}></Route>
