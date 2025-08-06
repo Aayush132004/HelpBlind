@@ -773,7 +773,26 @@ const acceptrequest = async(req , res) =>{
 
 }
 
+const getStudentRequests = async(req , res) =>{
+    try {
+        const {user ,status} = req.body; 
+        const updatedRequest = await Request.find({
+            studentId: user._id,
+            isAccepted: status // status can be "pending", "accepted", or "rejected"
+        }
+           
+        ).populate('scribeId');
+        res.status(200).json(updatedRequest);
+
+    }catch (error) {
+        console.error('Error fetching student requests:', error);
+        res.status(500).json({ error: 'Failed to fetch student requests' });
+    }   
+}  
+
+
 const rejectrequest = async(req , res) =>{
+
     try {
 
         const {currentRejectRequest , status ,rejectionReason } = req.body;
@@ -808,4 +827,4 @@ const getRejectedRequests = async(req , res) =>{
         res.status(500).json({ error: 'Failed to fetch rejected requests' });
     }
 }; 
-module.exports = { registerScribe, uploadSignature, login, logout,registerStudent,getPermanentScribe  , stdreq , seltscb , getstudents , accept, getPermanentStudents , acceptrequest , rejectrequest , getRejectedRequests };
+module.exports = { registerScribe, uploadSignature, login, logout,registerStudent,getPermanentScribe  , stdreq , seltscb , getstudents , accept, getPermanentStudents , acceptrequest , rejectrequest , getRejectedRequests  , getStudentRequests};
