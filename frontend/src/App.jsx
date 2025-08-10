@@ -14,7 +14,7 @@ import BookingStudent from './Pages/Student/BookingStudent.jsx';
 import ChatPage from './Pages/ChatPage.jsx';
 import CallPage from './Pages/CallPage.jsx';
 import RejectedRequest from './Pages/Student/RejectedRequest.jsx';
-
+import UnifiedProfile from './Pages/Student/UnifiedProfile.jsx';
 
 const App = () => {
   const {isAuthenticated,setIsAuthenticated}=useGlobal();
@@ -62,6 +62,7 @@ const App = () => {
     <Route path='/login' element={<Login/>}></Route>
     <Route path='/scribeRegister' element={<ScribeRegister/>}></Route>
     <Route path='/studentRegister' element={<StudentRegister/>}></Route>
+    <Route path='/profile' element={<UnifiedProfile/>}></Route>
     <Route path='/scribeHome' element={isAuthenticated&&user.role==="scribe"?<ScribeHome/>:<Navigate to="/"></Navigate>}></Route>
     <Route path='/studentHome' element={isAuthenticated&&user.role==="student"?<StudentHome/>:<Navigate to="/"></Navigate>}></Route>
     {/* <Route path='/rejectedrequest' element={isAuthenticated&&user.role==="student"?<RejectedRequest/>:<Navigate to="/"></Navigate>}></Route> */}

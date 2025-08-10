@@ -827,4 +827,46 @@ const getRejectedRequests = async(req , res) =>{
         res.status(500).json({ error: 'Failed to fetch rejected requests' });
     }
 }; 
-module.exports = { registerScribe, uploadSignature, login, logout,registerStudent,getPermanentScribe  , stdreq , seltscb , getstudents , accept, getPermanentStudents , acceptrequest , rejectrequest , getRejectedRequests  , getStudentRequests};
+
+const getstudentprofile = async (req, res) => {
+    try {
+        const { user } = req.body; // Assuming userId is passed as a URL parameter
+        console.log(user , "user details");
+        const student = await Student.findById(user._id)
+        console.log(student , "student details");
+        if (!student) {
+            return res.status(404).json({ error: 'Student not found' });
+        }else{
+           res.status(200).json({student});
+        }
+                
+
+    }catch (error) {
+        console.error('Error fetching student profile:', error);
+        res.status(500).json({ error: 'Failed to fetch student profile' });
+    }
+}
+
+const getscribeprofile = async (req, res) => {
+    try {
+        const { user } = req.body; // Assuming userId is passed as a URL parameter
+        console.log(user , "user details");
+        const scribe = await Scribe.findById(user._id)
+        console.log(scribe , "student details");
+        if (!scribe) {
+            return res.status(404).json({ error: 'Student not found' });
+        }else{
+           res.status(200).json({scribe});
+        }
+                
+
+    }catch (error) {
+        console.error('Error fetching student profile:', error);
+        res.status(500).json({ error: 'Failed to fetch student profile' });
+    }
+}
+
+
+
+          
+module.exports = { registerScribe, uploadSignature, login, logout,registerStudent, getscribeprofile,getPermanentScribe  , stdreq , seltscb , getstudents , accept, getPermanentStudents , acceptrequest , rejectrequest , getRejectedRequests  , getStudentRequests , getstudentprofile};
