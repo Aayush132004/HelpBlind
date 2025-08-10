@@ -1,5 +1,5 @@
 { "scripts": {
-    "start": "cd backend && nodemon index.js"
+    "start": "cd backend && node index.js"
   },
   "dependencies": {
     "cloudinary": "^2.7.0",
