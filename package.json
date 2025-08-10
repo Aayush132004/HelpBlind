@@ -1,4 +1,6 @@
-{
+{ "scripts": {
+    "start": "cd backend && nodemon index.js"
+  },
   "dependencies": {
     "cloudinary": "^2.7.0",
     "dotenv": "^17.2.1"
