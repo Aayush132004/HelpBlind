@@ -15,6 +15,7 @@ import {
 } from 'stream-chat-react';
 import { StreamChat } from 'stream-chat';
 import 'stream-chat-react/dist/css/v2/index.css';
+import './styles/dark-chat-theme.css';
 
 import '@stream-io/video-react-sdk/dist/css/styles.css';
 import { VideoIcon } from 'lucide-react';
@@ -155,26 +156,32 @@ const ChatPage = () => {
                 {announcements}
             </div>
             <Navbar />
-            <main id="main-content" role="main" aria-label={t.mainContent} className="h-[calc(100vh-64px)]">
-                <Chat client={chatClient}>
-                    <Channel channel={channel}>
-                        <div className="relative h-full w-full">
-                            <button
-                                className="absolute right-6 bg-blue-600 text-white p-2 rounded-full top-3 z-10 hover:bg-blue-700 transition-colors"
-                                onClick={handleVideoCall}
-                                // aria-label={t.videoCall}
-                            >
-                                <VideoIcon className='size-6'/>
-                            </button>
-                            <Window>
-                                <ChannelHeader />
-                                <MessageList />
-                                <MessageInput focus />
-                            </Window>
-                        </div>
-                        <Thread/>
-                    </Channel>
-                </Chat>
+            <main id="main-content" role="main" aria-label={t.mainContent} className="h-[calc(100vh-70px)]">
+                <div className={`dark-chat-theme ${highContrast ? 'high-contrast' : ''}`}>
+                    <Chat client={chatClient}>
+                        <Channel channel={channel}>
+                            <div className="relative h-[calc(100vh-70px)] w-full">
+                                <button
+                                    className={`absolute right-6 top-3 z-10 p-2 rounded-full transition-colors ${
+                                        highContrast 
+                                            ? 'bg-white text-black hover:bg-gray-200 border-2 border-white' 
+                                            : 'bg-blue-600 text-white hover:bg-blue-700'
+                                    }`}
+                                    onClick={handleVideoCall}
+                                    aria-label={t.videoCall}
+                                >
+                                    <VideoIcon className='size-6'/>
+                                </button>
+                                <Window className="h-full">
+                                    <ChannelHeader />
+                                    <MessageList />
+                                    <MessageInput focus />
+                                </Window>
+                            </div>
+                            <Thread/>
+                        </Channel>
+                    </Chat>
+                </div>
             </main>
         </div>
     );
