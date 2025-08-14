@@ -1,305 +1,258 @@
-// import React from 'react';
-// import { User, Phone, Mail, MapPin, GraduationCap, FileText, Calendar, Shield } from 'lucide-react';
-// import { useState } from 'react';
-// import { useEffect } from 'react'; 
-// import axiosClient from '../../utils/axiosClient';
-// import useGlobal from '../../utils/GlobalContext';
-// import { Navigate } from 'react-router-dom';
-
-// import Navbar from '../../components/Navbar';
-
-// // Mock student data
-// const stddata = {
-//   aadhaarNumber: "123456789012",
-//   fullName: "Arjun Kumar Sharma",
-//   mobileNumber: "9876543210",
-//   email: "arjun.sharma@email.com",
-//   age: 22,
-//   state: "Maharashtra",
-//   city: "Mumbai",
-//   educationLevel: "Undergraduate",
-//   disability: "None",
-//   role: "student",
-//   profile: {
-//     url: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400"
-//   },
-//   adhaarCard: {
-//     url: "https://images.pexels.com/photos/6801874/pexels-photo-6801874.jpeg?auto=compress&cs=tinysrgb&w=400"
-//   },
-//   createdAt: "2024-01-15"
-// };
-
-// function StudentProfile() {
-
-//     const [ studentData, setStudentData ] = useState(stddata);
-//     const {user , setuser} = useGlobal();
-
-//     const getstudentprofile = async () => {
-//         try {
-//             console.log(user._id)
-//             const response = await axiosClient.post(`/auth/getstudentprofile`, {user});
-
-//             console.log(response.data.student);
-//             setStudentData(response.data.student);
-//         } catch (error) {
-//             console.error("Error fetching student profile:", error);
-//         }
-
-//     }
-
-//     useEffect(() => {
-//         if (user && user._id) {
-//             getstudentprofile();
-//         }   
-
-//     }, [user]);
-
-//     // if (!user || user.role !== "student") {
-//     //     return <Navigate to="/login" />;
-//     // }  
-
-
-
-//   return (
-//     <>
-//     <Navbar />
-//     <div className="min-h-screen bg-slate-100 p-4">
-        
-//       <div className="max-w-4xl mx-auto">
-        
-//         {/* Main Profile Card */}
-//         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-6">
-//           <div className="p-8">
-//             <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
-//               <div className="relative">
-//                 <img
-//                   src={studentData.profile.url}
-//                   alt="Profile"
-//                   className="w-24 h-24 rounded-full object-cover border-4 border-slate-100"
-//                 />
-//                 <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-white"></div>
-//               </div>
-//               <div className="flex-1">
-//                 <h1 className="text-2xl font-bold text-slate-900 mb-1">{studentData.fullName}</h1>
-//                 <p className="text-slate-600 mb-2 capitalize">{studentData.role}</p>
-//                 <div className="flex items-center text-slate-500 text-sm">
-//                   <MapPin className="w-4 h-4 mr-1" />
-//                   {studentData.city}, {studentData.state}
-//                 </div>
-//               </div>
-//               <div className="flex gap-2">
-//                 <button className="px-4 py-2 bg-slate-900 text-white rounded-lg text-sm font-medium hover:bg-slate-800 transition-colors">
-//                   Edit Profile
-//                 </button>
-//                 <button className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors">
-//                   Download
-//                 </button>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-
-//         {/* Information Grid */}
-//         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          
-//           {/* Personal Details */}
-//           <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-//             <div className="flex items-center mb-4">
-//               <User className="w-5 h-5 text-slate-600 mr-2" />
-//               <h2 className="font-semibold text-slate-900">Personal Details</h2>
-//             </div>
-//             <div className="space-y-4">
-//               <div>
-//                 <label className="text-xs font-medium text-slate-500 uppercase tracking-wide">Full Name</label>
-//                 <p className="text-slate-900 font-medium">{studentData.fullName}</p>
-//               </div>
-//               <div>
-//                 <label className="text-xs font-medium text-slate-500 uppercase tracking-wide">Age</label>
-//                 <p className="text-slate-900 font-medium">{studentData.age} years</p>
-//               </div>
-//               <div>
-//                 <label className="text-xs font-medium text-slate-500 uppercase tracking-wide">Disability</label>
-//                 <p className="text-slate-900 font-medium">{studentData.disability}</p>
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Contact Information */}
-//           <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-//             <div className="flex items-center mb-4">
-//               <Phone className="w-5 h-5 text-slate-600 mr-2" />
-//               <h2 className="font-semibold text-slate-900">Contact Info</h2>
-//             </div>
-//             <div className="space-y-4">
-//               <div>
-//                 <label className="text-xs font-medium text-slate-500 uppercase tracking-wide">Mobile</label>
-//                 <p className="text-slate-900 font-medium">{studentData.mobileNumber}</p>
-//               </div>
-//               <div>
-//                 <label className="text-xs font-medium text-slate-500 uppercase tracking-wide">Email</label>
-//                 <p className="text-slate-900 font-medium">{studentData.email}</p>
-//               </div>
-//               <div>
-//                 <label className="text-xs font-medium text-slate-500 uppercase tracking-wide">Location</label>
-//                 <p className="text-slate-900 font-medium">{studentData.city}, {studentData.state}</p>
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Education */}
-//           <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-//             <div className="flex items-center mb-4">
-//               <GraduationCap className="w-5 h-5 text-slate-600 mr-2" />
-//               <h2 className="font-semibold text-slate-900">Education</h2>
-//             </div>
-//             <div className="space-y-4">
-//               <div>
-//                 <label className="text-xs font-medium text-slate-500 uppercase tracking-wide">Level</label>
-//                 <p className="text-slate-900 font-medium">{studentData.educationLevel}</p>
-//               </div>
-//               <div>
-//                 <label className="text-xs font-medium text-slate-500 uppercase tracking-wide">Status</label>
-//                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-//                   Active
-//                 </span>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-
-//         {/* Documents and Security */}
-//         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-          
-//           {/* Documents */}
-//           <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-//             <div className="flex items-center mb-4">
-//               <FileText className="w-5 h-5 text-slate-600 mr-2" />
-//               <h2 className="font-semibold text-slate-900">Documents</h2>
-//             </div>
-//             <div className="space-y-4">
-//               <div className="border border-slate-200 rounded-xl p-4">
-//                 <div className="flex items-center justify-between mb-3">
-//                   <div>
-//                     <h3 className="font-medium text-slate-900">Aadhaar Card</h3>
-//                     <p className="text-sm text-slate-500">Identity Document</p>
-//                   </div>
-//                   <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-full">
-//                     Verified
-//                   </span>
-//                 </div>
-//                 <img 
-//                   src={studentData.adhaarCard.url} 
-//                   alt="Aadhaar Card"
-//                   className="w-full h-24 object-cover rounded-lg border border-slate-200"
-//                 />
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Security Info */}
-//           <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-//             <div className="flex items-center mb-4">
-//               <Shield className="w-5 h-5 text-slate-600 mr-2" />
-//               <h2 className="font-semibold text-slate-900">Security</h2>
-//             </div>
-//             <div className="space-y-4">
-//               <div>
-//                 <label className="text-xs font-medium text-slate-500 uppercase tracking-wide">Aadhaar Number</label>
-//                 <p className="text-slate-900 font-mono font-medium">
-//                   {studentData.aadhaarNumber.replace(/(\d{4})(\d{4})(\d{4})/, '$1 $2 $3')}
-//                 </p>
-//               </div>
-//               <div>
-//                 <label className="text-xs font-medium text-slate-500 uppercase tracking-wide">Account Created</label>
-//                 <div className="flex items-center text-slate-900 font-medium">
-//                   <Calendar className="w-4 h-4 mr-2 text-slate-500" />
-//                   {new Date(studentData.createdAt).toLocaleDateString('en-US', { 
-//                     year: 'numeric', 
-//                     month: 'long', 
-//                     day: 'numeric' 
-//                   })}
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//     </>
-//   );
-// }
-
-// export default StudentProfile;
-
-
-import React from 'react';
-import { User, Phone, Mail, MapPin, GraduationCap, FileText, Calendar, Shield, BookOpen, Users, Clock } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { User, Phone, Mail, MapPin, GraduationCap, FileText, Calendar, Shield, BookOpen, Users, Clock, X, Eye, ZoomIn, Download } from 'lucide-react';
 import axiosClient from '../../utils/axiosClient';
 import useGlobal from '../../utils/GlobalContext';
 import { Navigate } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 
-// Mock data for both roles
-const mockStudentData = {
-  aadhaarNumber: "123456789012",
-  fullName: "Arjun Kumar Sharma",
-  mobileNumber: "9876543210",
-  email: "arjun.sharma@email.com",
-  age: 22,
-  state: "Maharashtra",
-  city: "Mumbai",
-  educationLevel: "Undergraduate",
-  disability: "None",
-  role: "student",
-  profile: {
-    url: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400"
-  },
-  adhaarCard: {
-    url: "https://images.pexels.com/photos/6801874/pexels-photo-6801874.jpeg?auto=compress&cs=tinysrgb&w=400"
-  },
-  createdAt: "2024-01-15"
-};
+// Document Modal Component
+const DocumentModal = ({ isOpen, onClose, document, title, highContrast, language }) => {
+  const modalRef = useRef(null);
+  const [announcements, setAnnouncements] = useState('');
 
-const mockScribeData = {
-  aadhaarNumber: "987654321098",
-  fullName: "Priya Singh",
-  mobileNumber: "9123456789",
-  email: "priya.singh@email.com",
-  age: 28,
-  state: "Delhi",
-  city: "New Delhi",
-  highestQualification: "Master's in Education",
-  role: "scribe",
-  profile: {
-    url: "https://images.pexels.com/photos/3769021/pexels-photo-3769021.jpeg?auto=compress&cs=tinysrgb&w=400"
-  },
-  aadhaarCard: {
-    url: "https://images.pexels.com/photos/6801874/pexels-photo-6801874.jpeg?auto=compress&cs=tinysrgb&w=400"
-  },
-  qualificationImgLink: {
-    url: "https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=400"
-  },
-  permanentstudent: [],
-  tempstudent: [],
-  bookedDates: [],
-  createdAt: "2024-01-10"
+  const translations = {
+    en: {
+      closeModal: "Close document view",
+      downloadDocument: "Download document",
+      documentView: "Document view",
+      loading: "Loading document...",
+      error: "Failed to load document"
+    },
+    hi: {
+      closeModal: "दस्तावेज़ देखना बंद करें",
+      downloadDocument: "दस्तावेज़ डाउनलोड करें",
+      documentView: "दस्तावेज़ देखें",
+      loading: "दस्तावेज़ लोड हो रहा है...",
+      error: "दस्तावेज़ लोड करने में असफल"
+    }
+  };
+
+  const t = translations[language] || translations.en;
+
+  // This function is defined once and memoized by useCallback
+  // to prevent re-creation on every render.
+  const announce = React.useCallback((message) => {
+    setAnnouncements(message);
+    setTimeout(() => setAnnouncements(''), 1000);
+  }, []);
+
+  // --- START: MODIFIED CODE ---
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      // ✅ SOLUTION: Use 'window.document' to refer to the global object.
+      window.document.addEventListener('keydown', handleKeyDown);
+      modalRef.current?.focus();
+      announce(`${title} ${t.documentView}`);
+    }
+
+    // ✅ FIX: The cleanup function now correctly removes the listener from 'window.document'.
+    return () => {
+      window.document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose, title, t.documentView, announce]); // Added announce to dependency array
+  // --- END: MODIFIED CODE ---
+
+  if (!isOpen) return null;
+
+  const modalClasses = highContrast
+    ? "bg-black text-white border-white border-2"
+    : "bg-gray-900 text-gray-100";
+
+  const buttonClasses = highContrast
+    ? "bg-white text-black hover:bg-gray-200 border-2 border-white"
+    : "bg-gray-800 text-gray-300 hover:bg-gray-700 border border-gray-600";
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-75"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+    >
+      {/* Screen Reader Announcements */}
+      <div aria-live="polite" aria-atomic="true" className="sr-only">
+        {announcements}
+      </div>
+
+      <div
+        ref={modalRef}
+        className={`${modalClasses} rounded-xl shadow-2xl max-w-4xl max-h-[90vh] w-full flex flex-col`}
+        onClick={(e) => e.stopPropagation()}
+        tabIndex={-1}
+      >
+        {/* Modal Header */}
+        <div className={`flex items-center justify-between p-6 border-b ${
+          highContrast ? 'border-white' : 'border-gray-700'
+        }`}>
+          <h2 id="modal-title" className="text-xl font-bold">
+            {title}
+          </h2>
+          <div className="flex items-center space-x-2">
+            <a
+              href={document}
+              download
+              className={`p-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 ${buttonClasses}`}
+              aria-label={t.downloadDocument}
+              title={t.downloadDocument}
+            >
+              <Download className="h-5 w-5" />
+            </a>
+            <button
+              onClick={onClose}
+              className={`p-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 ${buttonClasses}`}
+              aria-label={t.closeModal}
+              title={t.closeModal}
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Modal Content */}
+        <div className="flex-1 p-6 overflow-auto">
+          <img
+            src={document}
+            alt={title}
+            className="w-full h-auto rounded-lg border border-gray-600 shadow-lg"
+            style={{ maxHeight: '70vh', objectFit: 'contain' }}
+            onError={(e) => {
+              e.target.alt = t.error;
+              e.target.className = `${e.target.className} opacity-50`;
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 function UnifiedProfile() {
   const [profileData, setProfileData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { user, setuser } = useGlobal();
+  const [documentModal, setDocumentModal] = useState({ isOpen: false, document: null, title: '' });
+  const [announcements, setAnnouncements] = useState('');
 
-  // if( !user ) {
-  //   return <Navigate to="/login" />;
-  // }
+  // Global context
+  const { user, setUser, language, highContrast } = useGlobal();
+
+  // Translations
+  const translations = {
+    en: {
+      loadingProfile: "Loading profile...",
+      personalDetails: "Personal Details",
+      contactInfo: "Contact Info",
+      education: "Education",
+      qualification: "Qualification",
+      studentConnections: "Student Connections",
+      availability: "Availability",
+      documents: "Documents",
+      security: "Security",
+      fullName: "Full Name",
+      age: "Age",
+      disability: "Disability",
+      mobile: "Mobile",
+      email: "Email",
+      location: "Location",
+      educationLevel: "Education Level",
+      highestQualification: "Highest Qualification",
+      status: "Status",
+      active: "Active",
+      permanentStudents: "Permanent Students",
+      temporaryAssignments: "Temporary Assignments",
+      bookedDates: "Booked Dates",
+      available: "Available",
+      nextAvailable: "Next Available",
+      today: "Today",
+      aadhaarCard: "Aadhaar Card",
+      identityDocument: "Identity Document",
+      qualificationCertificate: "Qualification Certificate",
+      educationDocument: "Education Document",
+      verified: "Verified",
+      aadhaarNumber: "Aadhaar Number",
+      accountCreated: "Account Created",
+      none: "None",
+      notProvided: "Not provided",
+      years: "years",
+      viewDocument: "View document"
+    },
+    hi: {
+      loadingProfile: "प्रोफ़ाइल लोड हो रहा है...",
+      personalDetails: "व्यक्तिगत विवरण",
+      contactInfo: "संपर्क जानकारी",
+      education: "शिक्षा",
+      qualification: "योग्यता",
+      studentConnections: "छात्र कनेक्शन",
+      availability: "उपलब्धता",
+      documents: "दस्तावेज़",
+      security: "सुरक्षा",
+      fullName: "पूरा नाम",
+      age: "आयु",
+      disability: "विकलांगता",
+      mobile: "मोबाइल",
+      email: "ईमेल",
+      location: "स्थान",
+      educationLevel: "शिक्षा स्तर",
+      highestQualification: "उच्चतम योग्यता",
+      status: "स्थिति",
+      active: "सक्रिय",
+      permanentStudents: "स्थायी छात्र",
+      temporaryAssignments: "अस्थायी असाइनमेंट",
+      bookedDates: "बुक की गई तारीखें",
+      available: "उपलब्ध",
+      nextAvailable: "अगली उपलब्धता",
+      today: "आज",
+      aadhaarCard: "आधार कार्ड",
+      identityDocument: "पहचान दस्तावेज़",
+      qualificationCertificate: "योग्यता प्रमाणपत्र",
+      educationDocument: "शिक्षा दस्तावेज़",
+      verified: "सत्यापित",
+      aadhaarNumber: "आधार संख्या",
+      accountCreated: "खाता बनाया गया",
+      none: "कोई नहीं",
+      notProvided: "प्रदान नहीं किया गया",
+      years: "वर्ष",
+      viewDocument: "दस्तावेज़ देखें"
+    }
+  };
+
+  const t = translations[language] || translations.en;
+
+  const announce = (message) => {
+    setAnnouncements(message);
+    setTimeout(() => setAnnouncements(''), 1000);
+  };
+
+  // Theme classes
+  const baseClasses = highContrast
+    ? "bg-black text-white"
+    : "bg-gray-900 text-gray-100";
+
+  const cardClasses = highContrast
+    ? "bg-gray-900 border-white border-2 text-white"
+    : "bg-gray-800 border-gray-700 border text-gray-100";
+
+  const buttonClasses = highContrast
+    ? "bg-white text-black hover:bg-gray-200 border-2 border-white"
+    : "bg-blue-600 text-white hover:bg-blue-700";
+
+  const badgeClasses = highContrast
+    ? "bg-white text-black border-2 border-white"
+    : "bg-green-100 text-green-800";
+
+  console.log("user is:", user);
 
   const getProfileData = async () => {
     try {
       setIsLoading(true);
       console.log(user._id, user.role);
-      
+
       const endpoint = user.role === "student" ? "/auth/getstudentprofile" : "/auth/getscribeprofile";
       const response = await axiosClient.post(endpoint, { user });
 
@@ -308,8 +261,6 @@ function UnifiedProfile() {
       setProfileData(response.data[profileKey]);
     } catch (error) {
       console.error("Error fetching profile:", error);
-      // Use mock data as fallback
-      setProfileData(user.role === "student" ? mockStudentData : mockScribeData);
     } finally {
       setIsLoading(false);
     }
@@ -319,20 +270,37 @@ function UnifiedProfile() {
     if (user && user._id) {
       getProfileData();
     } else {
-      // Use mock data if no user
-      setProfileData(mockStudentData);
       setIsLoading(false);
     }
   }, [user]);
+
+  const openDocumentModal = (document, title) => {
+    setDocumentModal({ isOpen: true, document, title });
+    announce(`${t.viewDocument}: ${title}`);
+  };
+
+  const closeDocumentModal = () => {
+    setDocumentModal({ isOpen: false, document: null, title: '' });
+    announce("Document view closed");
+  };
 
   if (isLoading) {
     return (
       <>
         <Navbar />
-        <div className="min-h-screen bg-slate-100 flex items-center justify-center">
+        <div className={`min-h-screen ${baseClasses} flex items-center justify-center transition-colors duration-300`}>
+          {/* Screen Reader Announcements */}
+          <div aria-live="polite" aria-atomic="true" className="sr-only">
+            {announcements}
+          </div>
+
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-900 mx-auto mb-4"></div>
-            <p className="text-slate-600">Loading profile...</p>
+            <div className={`animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4 ${
+              highContrast ? 'border-white' : 'border-blue-400'
+            }`}></div>
+            <p className={highContrast ? 'text-gray-300' : 'text-gray-400'}>
+              {t.loadingProfile}
+            </p>
           </div>
         </div>
       </>
@@ -348,29 +316,37 @@ function UnifiedProfile() {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-slate-100 p-4">
+      <div className={`min-h-screen ${baseClasses} p-4 transition-colors duration-300`}>
+        {/* Screen Reader Announcements */}
+        <div aria-live="polite" aria-atomic="true" className="sr-only">
+          {announcements}
+        </div>
+
         <div className="max-w-4xl mx-auto">
           {/* Main Profile Card */}
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-6">
+          <div className={`${cardClasses} rounded-2xl shadow-xl overflow-hidden mb-6`}>
             <div className="p-8">
               <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
                 <div className="relative">
                   <img
                     src={profileData.profile?.url || "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400"}
-                    alt="Profile"
-                    className="w-24 h-24 rounded-full object-cover border-4 border-slate-100"
+                    alt={`${profileData.fullName}'s profile`}
+                    className={`w-24 h-24 rounded-full object-cover border-4 ${
+                      highContrast ? 'border-white' : 'border-gray-600'
+                    }`}
                   />
                   <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-white"></div>
                 </div>
                 <div className="flex-1">
-                  <h1 className="text-2xl font-bold text-slate-900 mb-1">{profileData.fullName}</h1>
-                  <p className="text-slate-600 mb-2 capitalize">{profileData.role}</p>
-                  <div className="flex items-center text-slate-500 text-sm">
+                  <h1 className="text-2xl font-bold mb-1">{profileData.fullName}</h1>
+                  <p className={`mb-2 capitalize ${highContrast ? 'text-gray-300' : 'text-gray-400'}`}>
+                    {profileData.role}
+                  </p>
+                  <div className={`flex items-center text-sm ${highContrast ? 'text-gray-300' : 'text-gray-500'}`}>
                     <MapPin className="w-4 h-4 mr-1" />
                     {profileData.city}, {profileData.state}
                   </div>
                 </div>
-                
               </div>
             </div>
           </div>
@@ -378,72 +354,102 @@ function UnifiedProfile() {
           {/* Information Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Personal Details */}
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <div className={`${cardClasses} rounded-2xl shadow-xl p-6`}>
               <div className="flex items-center mb-4">
-                <User className="w-5 h-5 text-slate-600 mr-2" />
-                <h2 className="font-semibold text-slate-900">Personal Details</h2>
+                <User className={`w-5 h-5 mr-2 ${highContrast ? 'text-gray-300' : 'text-gray-400'}`} />
+                <h2 className="font-semibold">{t.personalDetails}</h2>
               </div>
               <div className="space-y-4">
                 <div>
-                  <label className="text-xs font-medium text-slate-500 uppercase tracking-wide">Full Name</label>
-                  <p className="text-slate-900 font-medium">{profileData.fullName}</p>
+                  <label className={`text-xs font-medium uppercase tracking-wide ${
+                    highContrast ? 'text-gray-300' : 'text-gray-500'
+                  }`}>
+                    {t.fullName}
+                  </label>
+                  <p className="font-medium">{profileData.fullName}</p>
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-slate-500 uppercase tracking-wide">Age</label>
-                  <p className="text-slate-900 font-medium">{profileData.age} years</p>
+                  <label className={`text-xs font-medium uppercase tracking-wide ${
+                    highContrast ? 'text-gray-300' : 'text-gray-500'
+                  }`}>
+                    {t.age}
+                  </label>
+                  <p className="font-medium">{profileData.age} {t.years}</p>
                 </div>
                 {!isScribe && (
                   <div>
-                    <label className="text-xs font-medium text-slate-500 uppercase tracking-wide">Disability</label>
-                    <p className="text-slate-900 font-medium">{profileData.disability || 'None'}</p>
+                    <label className={`text-xs font-medium uppercase tracking-wide ${
+                      highContrast ? 'text-gray-300' : 'text-gray-500'
+                    }`}>
+                      {t.disability}
+                    </label>
+                    <p className="font-medium">{profileData.disability || t.none}</p>
                   </div>
                 )}
               </div>
             </div>
 
             {/* Contact Information */}
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <div className={`${cardClasses} rounded-2xl shadow-xl p-6`}>
               <div className="flex items-center mb-4">
-                <Phone className="w-5 h-5 text-slate-600 mr-2" />
-                <h2 className="font-semibold text-slate-900">Contact Info</h2>
+                <Phone className={`w-5 h-5 mr-2 ${highContrast ? 'text-gray-300' : 'text-gray-400'}`} />
+                <h2 className="font-semibold">{t.contactInfo}</h2>
               </div>
               <div className="space-y-4">
                 <div>
-                  <label className="text-xs font-medium text-slate-500 uppercase tracking-wide">Mobile</label>
-                  <p className="text-slate-900 font-medium">{profileData.mobileNumber}</p>
+                  <label className={`text-xs font-medium uppercase tracking-wide ${
+                    highContrast ? 'text-gray-300' : 'text-gray-500'
+                  }`}>
+                    {t.mobile}
+                  </label>
+                  <p className="font-medium">{profileData.mobileNumber}</p>
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-slate-500 uppercase tracking-wide">Email</label>
-                  <p className="text-slate-900 font-medium">{profileData.email || 'Not provided'}</p>
+                  <label className={`text-xs font-medium uppercase tracking-wide ${
+                    highContrast ? 'text-gray-300' : 'text-gray-500'
+                  }`}>
+                    {t.email}
+                  </label>
+                  <p className="font-medium">{profileData.email || t.notProvided}</p>
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-slate-500 uppercase tracking-wide">Location</label>
-                  <p className="text-slate-900 font-medium">{profileData.city}, {profileData.state}</p>
+                  <label className={`text-xs font-medium uppercase tracking-wide ${
+                    highContrast ? 'text-gray-300' : 'text-gray-500'
+                  }`}>
+                    {t.location}
+                  </label>
+                  <p className="font-medium">{profileData.city}, {profileData.state}</p>
                 </div>
               </div>
             </div>
 
             {/* Education/Qualification */}
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <div className={`${cardClasses} rounded-2xl shadow-xl p-6`}>
               <div className="flex items-center mb-4">
-                <GraduationCap className="w-5 h-5 text-slate-600 mr-2" />
-                <h2 className="font-semibold text-slate-900">
-                  {isScribe ? 'Qualification' : 'Education'}
+                <GraduationCap className={`w-5 h-5 mr-2 ${highContrast ? 'text-gray-300' : 'text-gray-400'}`} />
+                <h2 className="font-semibold">
+                  {isScribe ? t.qualification : t.education}
                 </h2>
               </div>
               <div className="space-y-4">
                 <div>
-                  <label className="text-xs font-medium text-slate-500 uppercase tracking-wide">
-                    {isScribe ? 'Highest Qualification' : 'Education Level'}
+                  <label className={`text-xs font-medium uppercase tracking-wide ${
+                    highContrast ? 'text-gray-300' : 'text-gray-500'
+                  }`}>
+                    {isScribe ? t.highestQualification : t.educationLevel}
                   </label>
-                  <p className="text-slate-900 font-medium">
+                  <p className="font-medium">
                     {isScribe ? profileData.highestQualification : profileData.educationLevel}
                   </p>
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-slate-500 uppercase tracking-wide">Status</label>
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                    Active
+                  <label className={`text-xs font-medium uppercase tracking-wide ${
+                    highContrast ? 'text-gray-300' : 'text-gray-500'
+                  }`}>
+                    {t.status}
+                  </label>
+                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${badgeClasses}`}>
+                    {t.active}
                   </span>
                 </div>
               </div>
@@ -454,27 +460,33 @@ function UnifiedProfile() {
           {isScribe && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
               {/* Student Connections */}
-              <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+              <div className={`${cardClasses} rounded-2xl shadow-xl p-6`}>
                 <div className="flex items-center mb-4">
-                  <Users className="w-5 h-5 text-slate-600 mr-2" />
-                  <h2 className="font-semibold text-slate-900">Student Connections</h2>
+                  <Users className={`w-5 h-5 mr-2 ${highContrast ? 'text-gray-300' : 'text-gray-400'}`} />
+                  <h2 className="font-semibold">{t.studentConnections}</h2>
                 </div>
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
-                    <span className="text-slate-600">Permanent Students</span>
-                    <span className="font-semibold text-slate-900">
+                    <span className={highContrast ? 'text-gray-300' : 'text-gray-400'}>
+                      {t.permanentStudents}
+                    </span>
+                    <span className="font-semibold">
                       {profileData.permanentstudent?.length || 0}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-slate-600">Temporary Assignments</span>
-                    <span className="font-semibold text-slate-900">
+                    <span className={highContrast ? 'text-gray-300' : 'text-gray-400'}>
+                      {t.temporaryAssignments}
+                    </span>
+                    <span className="font-semibold">
                       {profileData.tempstudent?.length || 0}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-slate-600">Booked Dates</span>
-                    <span className="font-semibold text-slate-900">
+                    <span className={highContrast ? 'text-gray-300' : 'text-gray-400'}>
+                      {t.bookedDates}
+                    </span>
+                    <span className="font-semibold">
                       {profileData.bookedDates?.length || 0}
                     </span>
                   </div>
@@ -482,21 +494,25 @@ function UnifiedProfile() {
               </div>
 
               {/* Availability */}
-              <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+              <div className={`${cardClasses} rounded-2xl shadow-xl p-6`}>
                 <div className="flex items-center mb-4">
-                  <Clock className="w-5 h-5 text-slate-600 mr-2" />
-                  <h2 className="font-semibold text-slate-900">Availability</h2>
+                  <Clock className={`w-5 h-5 mr-2 ${highContrast ? 'text-gray-300' : 'text-gray-400'}`} />
+                  <h2 className="font-semibold">{t.availability}</h2>
                 </div>
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-slate-600">Status</span>
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                      Available
+                    <span className={highContrast ? 'text-gray-300' : 'text-gray-400'}>{t.status}</span>
+                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${badgeClasses}`}>
+                      {t.available}
                     </span>
                   </div>
                   <div>
-                    <label className="text-xs font-medium text-slate-500 uppercase tracking-wide">Next Available</label>
-                    <p className="text-slate-900 font-medium">Today</p>
+                    <label className={`text-xs font-medium uppercase tracking-wide ${
+                      highContrast ? 'text-gray-300' : 'text-gray-500'
+                    }`}>
+                      {t.nextAvailable}
+                    </label>
+                    <p className="font-medium">{t.today}</p>
                   </div>
                 </div>
               </div>
@@ -506,46 +522,86 @@ function UnifiedProfile() {
           {/* Documents and Security */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
             {/* Documents */}
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <div className={`${cardClasses} rounded-2xl shadow-xl p-6`}>
               <div className="flex items-center mb-4">
-                <FileText className="w-5 h-5 text-slate-600 mr-2" />
-                <h2 className="font-semibold text-slate-900">Documents</h2>
+                <FileText className={`w-5 h-5 mr-2 ${highContrast ? 'text-gray-300' : 'text-gray-400'}`} />
+                <h2 className="font-semibold">{t.documents}</h2>
               </div>
               <div className="space-y-4">
                 {/* Aadhaar Card */}
-                <div className="border border-slate-200 rounded-xl p-4">
+                <div className={`border rounded-xl p-4 ${
+                  highContrast ? 'border-white' : 'border-gray-600'
+                }`}>
                   <div className="flex items-center justify-between mb-3">
                     <div>
-                      <h3 className="font-medium text-slate-900">Aadhaar Card</h3>
-                      <p className="text-sm text-slate-500">Identity Document</p>
+                      <h3 className="font-medium">{t.aadhaarCard}</h3>
+                      <p className={`text-sm ${highContrast ? 'text-gray-300' : 'text-gray-500'}`}>
+                        {t.identityDocument}
+                      </p>
                     </div>
-                    <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-full">
-                      Verified
-                    </span>
+                    <div className="flex items-center space-x-2">
+                      <span className={`px-2 py-1 text-xs font-medium rounded-full ${badgeClasses}`}>
+                        {t.verified}
+                      </span>
+                      <button
+                        onClick={() => openDocumentModal(
+                          profileData.aadhaarCard?.url || profileData.adhaarCard?.url || "https://images.pexels.com/photos/6801874/pexels-photo-6801874.jpeg?auto=compress&cs=tinysrgb&w=400",
+                          t.aadhaarCard
+                        )}
+                        className={`p-1 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 ${buttonClasses}`}
+                        aria-label={`${t.viewDocument} - ${t.aadhaarCard}`}
+                        title={`${t.viewDocument} - ${t.aadhaarCard}`}
+                      >
+                        <Eye className="h-4 w-4" />
+                      </button>
+                    </div>
                   </div>
                   <img
                     src={profileData.aadhaarCard?.url || profileData.adhaarCard?.url || "https://images.pexels.com/photos/6801874/pexels-photo-6801874.jpeg?auto=compress&cs=tinysrgb&w=400"}
-                    alt="Aadhaar Card"
-                    className="w-full h-24 object-cover rounded-lg border border-slate-200"
+                    alt={t.aadhaarCard}
+                    className={`w-full h-24 object-cover rounded-lg border cursor-pointer hover:opacity-80 transition-opacity ${
+                      highContrast ? 'border-white' : 'border-gray-600'
+                    }`}
+                    onClick={() => openDocumentModal(
+                      profileData.aadhaarCard?.url || profileData.adhaarCard?.url || "https://images.pexels.com/photos/6801874/pexels-photo-6801874.jpeg?auto=compress&cs=tinysrgb&w=400",
+                      t.aadhaarCard
+                    )}
                   />
                 </div>
 
                 {/* Qualification Document (Scribe only) */}
                 {isScribe && profileData.qualificationImgLink?.url && (
-                  <div className="border border-slate-200 rounded-xl p-4">
+                  <div className={`border rounded-xl p-4 ${
+                    highContrast ? 'border-white' : 'border-gray-600'
+                  }`}>
                     <div className="flex items-center justify-between mb-3">
                       <div>
-                        <h3 className="font-medium text-slate-900">Qualification Certificate</h3>
-                        <p className="text-sm text-slate-500">Education Document</p>
+                        <h3 className="font-medium">{t.qualificationCertificate}</h3>
+                        <p className={`text-sm ${highContrast ? 'text-gray-300' : 'text-gray-500'}`}>
+                          {t.educationDocument}
+                        </p>
                       </div>
-                      <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-full">
-                        Verified
-                      </span>
+                      <div className="flex items-center space-x-2">
+                        <span className={`px-2 py-1 text-xs font-medium rounded-full ${badgeClasses}`}>
+                          {t.verified}
+                        </span>
+                        <button
+                          onClick={() => openDocumentModal(profileData.qualificationImgLink.url, t.qualificationCertificate)}
+                          className={`p-1 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 ${buttonClasses}`}
+                          aria-label={`${t.viewDocument} - ${t.qualificationCertificate}`}
+                          title={`${t.viewDocument} - ${t.qualificationCertificate}`}
+                        >
+                          <Eye className="h-4 w-4" />
+                        </button>
+                      </div>
                     </div>
                     <img
                       src={profileData.qualificationImgLink.url}
-                      alt="Qualification Certificate"
-                      className="w-full h-24 object-cover rounded-lg border border-slate-200"
+                      alt={t.qualificationCertificate}
+                      className={`w-full h-24 object-cover rounded-lg border cursor-pointer hover:opacity-80 transition-opacity ${
+                        highContrast ? 'border-white' : 'border-gray-600'
+                      }`}
+                      onClick={() => openDocumentModal(profileData.qualificationImgLink.url, t.qualificationCertificate)}
                     />
                   </div>
                 )}
@@ -553,23 +609,31 @@ function UnifiedProfile() {
             </div>
 
             {/* Security Info */}
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <div className={`${cardClasses} rounded-2xl shadow-xl p-6`}>
               <div className="flex items-center mb-4">
-                <Shield className="w-5 h-5 text-slate-600 mr-2" />
-                <h2 className="font-semibold text-slate-900">Security</h2>
+                <Shield className={`w-5 h-5 mr-2 ${highContrast ? 'text-gray-300' : 'text-gray-400'}`} />
+                <h2 className="font-semibold">{t.security}</h2>
               </div>
               <div className="space-y-4">
                 <div>
-                  <label className="text-xs font-medium text-slate-500 uppercase tracking-wide">Aadhaar Number</label>
-                  <p className="text-slate-900 font-mono font-medium">
+                  <label className={`text-xs font-medium uppercase tracking-wide ${
+                    highContrast ? 'text-gray-300' : 'text-gray-500'
+                  }`}>
+                    {t.aadhaarNumber}
+                  </label>
+                  <p className="font-mono font-medium">
                     {profileData.aadhaarNumber?.replace(/(\d{4})(\d{4})(\d{4})/, '$1 $2 $3')}
                   </p>
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-slate-500 uppercase tracking-wide">Account Created</label>
-                  <div className="flex items-center text-slate-900 font-medium">
-                    <Calendar className="w-4 h-4 mr-2 text-slate-500" />
-                    {new Date(profileData.createdAt).toLocaleDateString('en-US', {
+                  <label className={`text-xs font-medium uppercase tracking-wide ${
+                    highContrast ? 'text-gray-300' : 'text-gray-500'
+                  }`}>
+                    {t.accountCreated}
+                  </label>
+                  <div className="flex items-center font-medium">
+                    <Calendar className={`w-4 h-4 mr-2 ${highContrast ? 'text-gray-300' : 'text-gray-500'}`} />
+                    {new Date(profileData.createdAt).toLocaleDateString(language === 'hi' ? 'hi-IN' : 'en-US', {
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric'
@@ -581,6 +645,16 @@ function UnifiedProfile() {
           </div>
         </div>
       </div>
+
+      {/* Document Modal */}
+      <DocumentModal
+        isOpen={documentModal.isOpen}
+        onClose={closeDocumentModal}
+        document={documentModal.document}
+        title={documentModal.title}
+        highContrast={highContrast}
+        language={language}
+      />
     </>
   );
 }

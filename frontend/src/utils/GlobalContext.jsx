@@ -1,12 +1,36 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const GlobalContext = createContext();
 
 export const GlobalProvider = ({ children }) => {
-  const [language, setLanguage] = useState("en");
-  const [highContrast, setHighContrast] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
+  const [language, setLanguage] = useState(() => localStorage.getItem("language") || "en");
+  const [highContrast, setHighContrast] = useState(() => localStorage.getItem("highContrast") === "true");
+  const [isAuthenticated, setIsAuthenticated] = useState(() => localStorage.getItem("isAuthenticated") === "true");
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem("user");
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
+
+  // Save to localStorage whenever state changes
+  useEffect(() => {
+    localStorage.setItem("language", language);
+  }, [language]);
+
+  useEffect(() => {
+    localStorage.setItem("highContrast", highContrast);
+  }, [highContrast]);
+
+  useEffect(() => {
+    localStorage.setItem("isAuthenticated", isAuthenticated);
+  }, [isAuthenticated]);
+
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+    } else {
+      localStorage.removeItem("user");
+    }
+  }, [user]);
 
   return (
     <GlobalContext.Provider
@@ -25,7 +49,6 @@ export const GlobalProvider = ({ children }) => {
     </GlobalContext.Provider>
   );
 };
-
 
 const useGlobal = () => useContext(GlobalContext);
 export default useGlobal;

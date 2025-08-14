@@ -556,12 +556,15 @@ const login = async (req, res) => {
 
 const logout = async (req, res) => {
     try {
+        // console.log("test-logout");
         res.clearCookie("token", {
             httpOnly: true,
             secure: true,
           sameSite: 'None' 
         });
+         console.log("logged out")
         res.status(200).send("Logged Out Successfully");
+       
     } catch (err) {
         console.error("Logout error:", err);
         res.status(500).send("Error logging out: " + err.message);

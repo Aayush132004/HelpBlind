@@ -68,8 +68,8 @@ const App = () => {
     {/* <Route path='/rejectedrequest' element={isAuthenticated&&user.role==="student"?<RejectedRequest/>:<Navigate to="/"></Navigate>}></Route> */}
     {/* <Route path='/bookings' element={isAuthenticated && user.role==="scribe"?<Bookings/>:<Navigate to="/"></Navigate>}></Route> */}
     <Route path='/bookings'element={isAuthenticated&& user.role === "scribe"? <Bookings/> : <BookingStudent/>} > </Route>
-        <Route path="/chat/:id" element={<ChatPage/>}></Route>
-        <Route path="/call/:id" element={<CallPage/>}></Route>
+        <Route path="/chat/:id" element={isAuthenticated?<ChatPage/>:<Login/>}></Route>
+        <Route path="/call/:id" element={isAuthenticated?<CallPage/>:<Login/>}></Route>
    
    </Routes>
    </>
