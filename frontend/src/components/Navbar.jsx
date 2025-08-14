@@ -40,7 +40,7 @@ const Navbar = () => {
       dashboard: "Dashboard",
       bookings: "Bookings",
       profile: "Profile",
-      settings: "Settings",
+     
       logout: "Logout",
       loggingOut: "Logging out...",
       menu: "Menu",
@@ -60,7 +60,7 @@ const Navbar = () => {
       dashboard: "डैशबोर्ड",
       bookings: "बुकिंग",
       profile: "प्रोफ़ाइल",
-      settings: "सेटिंग्स",
+     
       logout: "लॉगआउट",
       loggingOut: "लॉगआउट हो रहा है...",
       menu: "मेन्यू",
@@ -256,9 +256,7 @@ const Navbar = () => {
                           <p className={`text-xs ${highContrast ? 'text-gray-300' : 'text-gray-400'}`}>{t.location}</p>
                         </div>
                         {/* --- MODIFIED: Profile link removed from dropdown --- */}
-                        <Link to="/settings" className={`block px-4 py-2 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset ${highContrast ? 'text-white hover:bg-gray-800' : 'text-gray-300 hover:bg-gray-700'}`} role="menuitem">
-                          {t.settings}
-                        </Link>
+                       
                         <hr className={`my-2 ${highContrast ? 'border-white' : 'border-gray-600'}`} />
                         <button onClick={handleLogout} disabled={isLoggingOut} className={`w-full text-left px-4 py-2 text-sm flex items-center space-x-2 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset disabled:opacity-50 ${highContrast ? 'text-white hover:bg-gray-800 disabled:hover:bg-transparent' : 'text-red-400 hover:bg-red-900/20 disabled:hover:bg-transparent'}`} role="menuitem">
                           <LogOut className="h-4 w-4" aria-hidden="true" />
@@ -294,7 +292,7 @@ const Navbar = () => {
                     <Link to="/dashboard" className={`block py-2 text-base font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded ${highContrast ? 'text-white hover:text-gray-300' : 'text-gray-300 hover:text-blue-400'}`}>{t.dashboard}</Link>
                     <Link to="/bookings" className={`block py-2 text-base font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded ${highContrast ? 'text-white hover:text-gray-300' : 'text-gray-300 hover:text-blue-400'}`}>{t.bookings}</Link>
                     <Link to="/profile" className={`block py-2 text-base font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded ${highContrast ? 'text-white hover:text-gray-300' : 'text-gray-300 hover:text-blue-400'}`}>{t.profile}</Link>
-                    <Link to="/settings" className={`block py-2 text-base font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded ${highContrast ? 'text-white hover:text-gray-300' : 'text-gray-300 hover:text-blue-400'}`}>{t.settings}</Link>
+                  
                   </div>
                 )}
                 <div className={`px-4 pt-4 border-t ${highContrast ? 'border-white' : 'border-gray-700'} space-y-3`}>
