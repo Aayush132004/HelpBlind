@@ -71,7 +71,8 @@ const App = () => {
     <Route path='/bookings'element={isAuthenticated&& user.role === "scribe"? <Bookings/> : <BookingStudent/>} > </Route>
         <Route path="/chat/:id" element={isAuthenticated?<ChatPage/>:<Login/>}></Route>
         <Route path="/call/:id" element={isAuthenticated?<CallPage/>:<Login/>}></Route>
-        <Route path="/dashboard" element={isAuthenticated?<Dashboard/>:<Login/>}></Route>
+        <Route path="/dashboard" element={isAuthenticated ? user.role==="scribe" ? <ScribeHome/> : <StudentHome/> :<Login/>}></Route>
+        <Route path="/history" element={isAuthenticated?<Dashboard/>:<Login/>}></Route>
    
    </Routes>
    </>

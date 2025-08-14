@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { BookOpen, Users, ChevronDown, LogOut, Menu, X, User, Globe, Eye, Contrast } from 'lucide-react';
+import { BookOpen, Users, ChevronDown, LogOut, Menu, X, User, Globe, Eye, Contrast, History } from 'lucide-react';
 import useGlobal from '../utils/GlobalContext';
 import axiosClient from '../utils/axiosClient';
 import { useNavigate, Link } from 'react-router-dom'; // Corrected import
@@ -39,6 +39,7 @@ const Navbar = () => {
       tagline: "Bridging Learning Through Accessibility",
       dashboard: "Dashboard",
       bookings: "Bookings",
+      history: "History",
       profile: "Profile",
      
       logout: "Logout",
@@ -59,6 +60,7 @@ const Navbar = () => {
       tagline: "पहुंच के माध्यम से शिक्षा को जोड़ना",
       dashboard: "डैशबोर्ड",
       bookings: "बुकिंग",
+      history: "इतिहास",
       profile: "प्रोफ़ाइल",
      
       logout: "लॉगआउट",
@@ -195,7 +197,7 @@ const Navbar = () => {
                 </div>
               </div>
 
-              {/* --- MODIFIED: Desktop Navigation Links --- */}
+              {/* --- MODIFIED: Desktop Navigation Links with History --- */}
               {isAuthenticated && (
                 <div className="hidden md:flex items-center space-x-8">
                   <Link to="/dashboard" className={`${highContrast ? 'text-white hover:text-gray-300' : 'text-gray-300 hover:text-blue-400'} font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded px-2 py-1`}>
@@ -203,6 +205,10 @@ const Navbar = () => {
                   </Link>
                   <Link to="/bookings" className={`${highContrast ? 'text-white hover:text-gray-300' : 'text-gray-300 hover:text-blue-400'} font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded px-2 py-1`}>
                     {t.bookings}
+                  </Link>
+                  <Link to="/history" className={`${highContrast ? 'text-white hover:text-gray-300' : 'text-gray-300 hover:text-blue-400'} font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded px-2 py-1 flex items-center space-x-1`}>
+                    <History className="h-4 w-4" aria-hidden="true" />
+                    <span>{t.history}</span>
                   </Link>
                   <Link to="/profile" className={`${highContrast ? 'text-white hover:text-gray-300' : 'text-gray-300 hover:text-blue-400'} font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded px-2 py-1`}>
                     {t.profile}
@@ -291,6 +297,10 @@ const Navbar = () => {
                   <div className="space-y-2 px-4">
                     <Link to="/dashboard" className={`block py-2 text-base font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded ${highContrast ? 'text-white hover:text-gray-300' : 'text-gray-300 hover:text-blue-400'}`}>{t.dashboard}</Link>
                     <Link to="/bookings" className={`block py-2 text-base font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded ${highContrast ? 'text-white hover:text-gray-300' : 'text-gray-300 hover:text-blue-400'}`}>{t.bookings}</Link>
+                    <Link to="/history" className={`block py-2 text-base font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded ${highContrast ? 'text-white hover:text-gray-300' : 'text-gray-300 hover:text-blue-400'} flex items-center space-x-2`}>
+                      <History className="h-4 w-4" aria-hidden="true" />
+                      <span>{t.history}</span>
+                    </Link>
                     <Link to="/profile" className={`block py-2 text-base font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded ${highContrast ? 'text-white hover:text-gray-300' : 'text-gray-300 hover:text-blue-400'}`}>{t.profile}</Link>
                   
                   </div>
