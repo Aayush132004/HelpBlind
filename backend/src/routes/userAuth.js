@@ -2,7 +2,7 @@ const express=require("express");
 const authRouter=express.Router();
 const userMiddleware=require("../middleware/userMiddleware")
 // const userMiddleware=require("../middleware/userMiddleware")
-const {uploadSignature,registerScribe,registerStudent,getscribeprofile,login,logout , getstudentprofile , stdreq , seltscb , getstudents , accept, getPermanentStudents, getPermanentScribe , rejectrequest , acceptrequest , getRejectedRequests , getStudentRequests}=require("../../controller/authScribe");
+const {uploadSignature,registerScribe,registerStudent,getscribeprofile,login,logout , getstudentprofile , stdreq , seltscb , getstudents , accept, getPermanentStudents, getPermanentScribe , rejectrequest , acceptrequest , getRejectedRequests , getStudentRequests,getScribeHistory,getStudentHistory}=require("../../controller/authScribe");
 const { getStreamToken } = require("../../controller/chat.controller");
 
 //register and doc uploading
@@ -29,7 +29,9 @@ authRouter.post("/rejectrequest",rejectrequest);
 
 authRouter.post("/getRejectedRequests",getRejectedRequests);
 authRouter.post("/getStudentRequests",getStudentRequests);
-
+//history for student
+authRouter.post("/getStudentHistory",getStudentHistory);
+authRouter.post("/getScribeHistory",getScribeHistory);
 
 // acceptrequest
 // rejectrequest

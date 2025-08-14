@@ -150,16 +150,9 @@ const Bookings = () => {
                                     <p className="mb-1"><strong>{t.age}:</strong> {student.age}</p>
                                     <p className="mb-1"><strong>{t.mobileNumber}:</strong> {student.mobileNumber}</p>
                                     <p className="mb-1"><strong>{t.email}:</strong> {student.email || 'N/A'}</p>
-                                    <p className="mb-4"><strong>{t.highestQualification}:</strong> {student.highestQualification}</p>
+                                    <p className="mb-4"><strong>{t.highestQualification}:</strong> {student.educationLevel}</p>
                                     <div className="flex gap-4 mt-4">
-                                        <button
-                                            onClick={() => handleCallStudent(student._id, student.fullName)}
-                                            className={`${buttonClasses} flex-1 flex items-center justify-center gap-2`}
-                                            aria-label={`${t.call} ${student.fullName}`}
-                                        >
-                                            <Phone size={18} aria-hidden="true" />
-                                            <span>{t.call}</span>
-                                        </button>
+                                      
                                         <Link to={`/chat/${student._id}`}><button
                                             //onClick={() => handleChatStudent(student._id, student.fullName)}
                                             className={`${buttonClasses} flex-1 flex items-center justify-center gap-2`}

@@ -672,7 +672,9 @@ const getPermanentStudents = async(req , res)=>{
         console.log( user._id ,"scribe details")
 
         
-        const permanentStudent = await Scribe.findById(user._id).select("permanentstudent").populate("permanentstudent", "fullName city mobileNumber email");
+        const permanentStudent = await Scribe.findOne({"_id":user._id}).select("permanentstudent").populate("permanentstudent", "fullName city mobileNumber email educationLevel age");
+        
+        console.log("123456",permanentStudent);
         res.status(200).json(permanentStudent);
        
         
@@ -781,7 +783,8 @@ const getStudentRequests = async(req , res) =>{
         const {user ,status} = req.body; 
         const updatedRequest = await Request.find({
             studentId: user._id,
-            isAccepted: status // status can be "pending", "accepted", or "rejected"
+            isAccepted: status, // status can be "pending", "accepted", or "rejected"
+            date:{$gt:new Date()}
         }
            
         ).populate('scribeId');
@@ -869,7 +872,61 @@ const getscribeprofile = async (req, res) => {
     }
 }
 
+const getStudentHistory=async(req,res)=>{
+    try{
+    const {user}=req.body;
+    // console.log("hi");
+    const history=await Request.find({studentId:user._id,date: {$lt: new Date()}}).populate("scribeId","fullName").select("city date language scribeId")
+    // console.log("history is",history);
+    const resHistory=history.map((data)=>{
+        return {
+            "id":data._id,
+            "scribeName":data.scribeId.fullName,
+            "city":data.city,
+            "date":data.date,
+            "language":data.language
+        }
 
+    })
+    res.status(200).json({
+        "history":resHistory
+    });
+    }
+    catch(e){
+        res.status(400).json({
+            "message":"Internal Server Error",
+        })
+    }
+  
+}
+
+const getScribeHistory=async(req,res)=>{
+    try{
+    const {user}=req.body;
+    // console.log("hi");
+    const history=await Request.find({scribeId:user._id,date: {$lt: new Date()} }).populate("studentId","fullName").select("city date language scribeId")
+    // console.log("history is",history);
+    const resHistory=history.map((data)=>{
+        return {
+            "id":data._id,
+            "studentName":data.studentId.fullName,
+            "city":data.city,
+            "date":data.date,
+            "language":data.language
+        }
+
+    })
+    res.status(200).json({
+        "history":resHistory
+    });
+    }
+    catch(e){
+        res.status(400).json({
+            "message":"Internal Server Error",
+        })
+    }
+  
+}
 
           
-module.exports = { registerScribe, uploadSignature, login, logout,registerStudent, getscribeprofile,getPermanentScribe  , stdreq , seltscb , getstudents , accept, getPermanentStudents , acceptrequest , rejectrequest , getRejectedRequests  , getStudentRequests , getstudentprofile};
+module.exports = { registerScribe, uploadSignature, login, logout,registerStudent, getscribeprofile,getPermanentScribe  , stdreq , seltscb , getstudents , accept, getPermanentStudents , acceptrequest , rejectrequest , getRejectedRequests  , getStudentRequests , getstudentprofile,getStudentHistory,getScribeHistory};

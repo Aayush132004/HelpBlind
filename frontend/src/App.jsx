@@ -15,6 +15,7 @@ import ChatPage from './Pages/ChatPage.jsx';
 import CallPage from './Pages/CallPage.jsx';
 import RejectedRequest from './Pages/Student/RejectedRequest.jsx';
 import UnifiedProfile from './Pages/Student/UnifiedProfile.jsx';
+import Dashboard from './Pages/Dashboard.jsx';
 
 const App = () => {
   const {isAuthenticated,setIsAuthenticated}=useGlobal();
@@ -70,6 +71,7 @@ const App = () => {
     <Route path='/bookings'element={isAuthenticated&& user.role === "scribe"? <Bookings/> : <BookingStudent/>} > </Route>
         <Route path="/chat/:id" element={isAuthenticated?<ChatPage/>:<Login/>}></Route>
         <Route path="/call/:id" element={isAuthenticated?<CallPage/>:<Login/>}></Route>
+        <Route path="/dashboard" element={isAuthenticated?<Dashboard/>:<Login/>}></Route>
    
    </Routes>
    </>
